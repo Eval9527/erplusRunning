@@ -1,6 +1,7 @@
 # 配置
-去 config.js 中添加 cookie - token
+去 config.js 中添加 token
 
+token 获取方式：登陆之后去 cookies 中获取 token
 
 # 运行
 ## 安装依赖
@@ -11,3 +12,7 @@ $ npm install
 ```shell script
 node index.js
 ```
+
+## TODO
+- [ ] 节假日开启任务
+
