@@ -43,6 +43,12 @@ async function getHolidayType() {
 async function start() {
   console.log(`---------`)
   console.log(`启动任务`)
+
+  if (!TOKEN) {
+    console.log(`TOKEN 为空！`)
+    return
+  }
+
   const holidayType = await getHolidayType()
   if (holidayType === 2 || (holidayType === 1 && new Date().getDay() === 0)) {
     // 默认单休
@@ -52,6 +58,10 @@ async function start() {
 
   const res = await axios.get(TASK_URL);
   if (res.status === 200) {
+    if (res.data.hasOwnProperty('erpCode')) {
+      console.log(res.data.erpMsg)
+      return
+    }
     const itemList = res.data.pageItems;
     const doingList = itemList.filter((ele) => {
       return ele.status === 2;
@@ -71,9 +81,7 @@ async function start() {
       };
       const startRes = await axios.post(START_URL, data);
       if (startRes.status === 200) {
-        console.log(
-            `任务：【${filterList[0].topic}】已启动，时间：${getTime(1)}`
-        );
+        console.log(`任务：【${filterList[0].topic}】已启动，时间：${getTime(1)}`);
       }
     }
   }
