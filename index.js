@@ -8,7 +8,8 @@ const APP_SECRET = config.APP_SECRET
 const AUTH_TOKEN = `Bearer ${TOKEN}`;
 const TASK_URL = `https://www.erplus.co/taskWeb/filterUserTaskList?pageSize=20&currentPage=0&contactId=0&order=0&taskType=0&taskStatus=1,2,7&taskFeatures=2,4,1,3&startDate=1972-01-01&endDate=2099-12-30&personLabelType=0&personLabelIds=-1&labelType=0&labelIds=-1&prefix=`;
 const START_URL = `https://www.erplus.co/task/v1/statuses/start`;
-const HOLIDAY_URL = `https://www.mxnzp.com/api/holiday/single/${getTime(2)}?app_id=${APP_ID}&app_secret=${APP_SECRET}`
+// const HOLIDAY_URL1 = `https://www.mxnzp.com/api/holiday/single/${getTime(2)}?app_id=${APP_ID}&app_secret=${APP_SECRET}`
+const HOLIDAY_URL2 = `https://tool.bitefu.net/jiari/?d=${getTime(2)}`
 
 axios.defaults.headers.common["Authorization"] = AUTH_TOKEN;
 
@@ -30,19 +31,22 @@ function getTime(type) {
   }
 }
 
-async function isHoliday() {
-  const res = await axios.get(HOLIDAY_URL)
+async function getHolidayType() {
+  const res = await axios.get(HOLIDAY_URL2)
+  // 工作日（0）、休息日（1）和节假日（2）
   if (res.status === 200) {
-    return res.data.data.type !== 0
+    return Number(res.data)
   }
-  return true
+  return -1
 }
 
 async function start() {
   console.log(`---------`)
   console.log(`启动任务`)
-  if (await isHoliday()) {
-    console.log(`当前为节假日，暂停打卡`)
+  const holidayType = await getHolidayType()
+  if (holidayType === 2 || (holidayType === 1 && new Date().getDay() === 0)) {
+    // 默认单休
+    console.log(`当前为节假日或周日，暂停打卡`)
     return
   }
 
