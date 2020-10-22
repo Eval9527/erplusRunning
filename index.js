@@ -67,7 +67,7 @@ async function start() {
       return ele.status === 2
     })
     if (doingList.length) {
-      console.log(`存在已启动任务：【${doingList[0].topic}】，时间：${getTime(1)}`)
+      console.log(`存在已启动任务：【${doingList[0].topic}】，等待下一次运行，时间：${getTime(1)}`)
       return
     }
 
