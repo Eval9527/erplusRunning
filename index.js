@@ -23,11 +23,13 @@ const scheduleCronstyle = () => {
 
 function getTime(type) {
   const time = new Date()
+  const month = time.getMonth() > 8 ? time.getMonth()+1 : "0"+ time.getMonth()+1
+  const day = time.getDate() > 8 ? time.getDate() : "0"+ time.getDate()
   switch (type) {
     case 1:
-      return `${time.getMonth() + 1}月${time.getDate()}日 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+      return `${month}月${day}日 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
     case 2:
-      return `${time.getFullYear()}${time.getMonth() + 1}${time.getDate()}`
+      return `${"" + time.getFullYear() + month + day}`
   }
 }
 
@@ -50,6 +52,7 @@ async function start() {
   }
 
   const holidayType = await getHolidayType()
+  console.log(`工作日类型: ${holidayType}, 星期：${new Date().getDay()}`)
   if (holidayType === 2 || (holidayType === 1 && new Date().getDay() === 0)) {
     // 默认单休
     console.log(`当前为节假日或周日，暂停打卡。工作日类型：${holidayType}`)
@@ -62,6 +65,7 @@ async function start() {
       console.log(res.data.erpMsg)
       return
     }
+
     const itemList = res.data.pageItems
     const doingList = itemList.filter((ele) => {
       return ele.status === 2
