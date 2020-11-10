@@ -2,7 +2,7 @@
 const TOKEN = ``
 const APP_ID = ``
 const APP_SECRET = ``
-const HOLIDAY_SWITCH = 1
+const HOLIDAY_SWITCH = 2
 
 module.exports.TOKEN = TOKEN
 module.exports.APP_ID = APP_ID
