@@ -31,8 +31,9 @@ async function start() {
   }
 
   const holidayType = await getHolidayType()
-  console.log(`工作日类型: ${holidayType}, 星期：${new Date().getDay()}`)
-  if (holidayType === 2 || (holidayType === 1 && new Date().getDay() === 0)) {
+  const today = new Date().getDay()
+  console.log(`工作日类型: ${holidayType}, 星期：${today}`)
+  if (holidayType === 2 || (holidayType === 1 && today === 0)) {
     // 默认单休
     console.log(`当前为节假日或周日，暂停打卡。工作日类型：${holidayType}`)
     return
