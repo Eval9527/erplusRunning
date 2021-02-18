@@ -16,7 +16,7 @@ function getHolidayURL() {
 
 function getTime(type) {
   const time = new Date()
-  const month = time.getMonth() > 8 ? time.getMonth()+1 : "0"+ time.getMonth()+1
+  const month = time.getMonth() > 8 ? time.getMonth()+1 : "0"+ (time.getMonth()+1)
   const day = time.getDate() > 8 ? time.getDate() : "0"+ time.getDate()
   switch (type) {
     case 1:
